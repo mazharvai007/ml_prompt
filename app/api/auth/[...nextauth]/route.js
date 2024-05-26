@@ -4,7 +4,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import { connectToDB } from '@utils/database';
 import User from '@models/user';
 
-const authHandlers = NextAuth({
+const authHandler = NextAuth({
 	providers: [
 		GoogleProvider({
 			clientId: process.env.GOOGLE_ID,
@@ -14,6 +14,7 @@ const authHandlers = NextAuth({
 
 	callbacks: {
 		async session({ session }) {
+			// Store the user id from MongoDB to session
 			const sessionUser = await User.findOne({
 				email: session.user.email,
 			});
@@ -48,4 +49,4 @@ const authHandlers = NextAuth({
 	},
 });
 
-export { authHandlers as GET, authHandlers as POST };
+export { authHandler as GET, authHandler as POST };
