@@ -44,7 +44,12 @@ const Feed = () => {
 		);
 	};
 
-	const handleTagClick = () => {};
+	const handleTagClick = (tagName) => {
+		setSearchText(tagName);
+
+		const result = promptFilter(tagName);
+		setSearchResults(result);
+	};
 
 	return (
 		<section className="feed">
