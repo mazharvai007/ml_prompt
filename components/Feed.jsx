@@ -5,8 +5,9 @@ import PromptCardList from './PromptCardList';
 
 const Feed = () => {
 	const [searchText, setSearchText] = useState('');
-	const [posts, setPosts] = useState([]);
 	const [searchResults, setSearchResults] = useState([]);
+	const [searchTimeout, setSearchTimeout] = useState(null);
+	const [posts, setPosts] = useState([]);
 
 	const fetchPosts = async () => {
 		const response = await fetch('/api/prompt');
@@ -19,7 +20,29 @@ const Feed = () => {
 		fetchPosts();
 	}, []);
 
-	const handleSearchChange = (e) => {};
+	// Filtering prompt by users input
+	const promptFilter = (searchText) => {
+		const regex = new RegExp(searchText, 'i');
+
+		return posts.filter(
+			(post) =>
+				regex.test(post.creator.username) ||
+				regex.test(post.prompt) ||
+				regex.test(post.tag)
+		);
+	};
+
+	const handleSearchChange = (e) => {
+		clearTimeout(searchTimeout);
+		setSearchText(e.target.value);
+
+		setSearchTimeout(
+			setTimeout(() => {
+				const result = promptFilter(e.target.value);
+				setSearchResults(result);
+			}, 500)
+		);
+	};
 
 	const handleTagClick = () => {};
 
@@ -36,7 +59,14 @@ const Feed = () => {
 				/>
 			</form>
 
-			<PromptCardList data={posts} handleTagClick={handleTagClick} />
+			{searchText ? (
+				<PromptCardList
+					data={searchResults}
+					handleTagClick={handleTagClick}
+				/>
+			) : (
+				<PromptCardList data={posts} handleTagClick={handleTagClick} />
+			)}
 		</section>
 	);
 };
