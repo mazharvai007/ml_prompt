@@ -12,6 +12,17 @@ const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
 
 	const [copied, setCopied] = useState('');
 
+	const handleUserProfile = () => {
+		console.log(post);
+
+		if (post.creator._id === session?.user.id)
+			return router.push('/profile');
+
+		router.push(
+			`/profile/${post.creator._id}?name=${post.creator.username}`
+		);
+	};
+
 	/**
 	 * Copy the prompt
 	 */
@@ -35,7 +46,10 @@ const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
 					/>
 
 					<div className="flex flex-col">
-						<h3 className="font-satoshi font-semibold text-gray-900">
+						<h3
+							className="font-satoshi font-semibold text-gray-900 cursor-pointer"
+							onClick={handleUserProfile}
+						>
 							{post.creator.username}
 						</h3>
 						<p className="font-inter text-sm text-gray-500">

@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-const UserProfile = () => {
+const MyProfile = () => {
 	const router = useRouter();
 	const { data: session } = useSession();
 
@@ -62,4 +62,4 @@ const UserProfile = () => {
 	);
 };
 
-export default UserProfile;
+export default MyProfile;
