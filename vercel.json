@@ -1,7 +1,7 @@
 {
 	"functions": {
-		"api/auth/callback/google": {
-			"maxDuration": 10
+		"app/api/auth/callback/google": {
+			"maxDuration": 30
 		}
 	}
 }
